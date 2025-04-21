@@ -10,10 +10,11 @@ function SignIn() {
 
   const onSubmit = async (data) => {
     try {
-      await login(data);
+      const response = await login(data);
+      console.log('SignIn response:', response);
       navigate('/');
     } catch (err) {
-      console.error(err);
+      console.error('SignIn error:', err.message);
     }
   };
 

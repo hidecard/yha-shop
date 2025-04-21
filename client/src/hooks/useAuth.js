@@ -14,8 +14,9 @@ export const useAuth = () => {
       return response.data;
     } catch (err) {
       setLoading(false);
-      setError(err.response?.data?.message || 'Registration failed');
-      throw err;
+      const errorMessage = err.response?.data?.message || `Registration failed: ${err.message}`;
+      setError(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 
@@ -29,24 +30,11 @@ export const useAuth = () => {
       return response.data;
     } catch (err) {
       setLoading(false);
-      setError(err.response?.data?.message || 'Login failed');
-      throw err;
+      const errorMessage = err.response?.data?.message || `Login failed: ${err.message}`;
+      setError(errorMessage);
+      throw new Error(errorMessage);
     }
   };
 
-  const verifyEmail = async (token) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/verify-email`, { token });
-      setLoading(false);
-      return response.data;
-    } catch (err) {
-      setLoading(false);
-      setError(err.response?.data?.message || 'Verification failed');
-      throw err;
-    }
-  };
-
-  return { signup, login, verifyEmail, loading, error };
+  return { signup, login, loading, error };
 };
